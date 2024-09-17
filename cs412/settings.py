@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "hw", ## new app!!!
 ]
 
 MIDDLEWARE = [
@@ -57,6 +58,9 @@ TEMPLATES = [
         "DIRS": [],
         "APP_DIRS": True,
         "OPTIONS": {
+            ## A LINE HERE ##
+            'string_if_invalid': 'WARNING: {{%s}} is not a valid context variable.',
+
             "context_processors": [
                 "django.template.context_processors.debug",
                 "django.template.context_processors.request",
