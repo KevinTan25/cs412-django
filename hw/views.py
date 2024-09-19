@@ -28,7 +28,7 @@ def home(request):
     Delegate rednering to the template hw/home.html
     '''
 
-    #use this template to render the response
+    # use this template to render (display) the response
     template_name = 'hw/home.html'
 
     # create a directory of context of context variables for the template:
@@ -37,6 +37,24 @@ def home(request):
         "letter1": chr(random.randint(65,90)), #  a letter from A .... Z
         "letter2": chr(random.randint(65,90)), #  a letter from A .... Z
         "number": random.randint(1,10), # number from 1 to 10
+    }
+
+    #delegate rendering work to the template
+    return render(request, template_name, context)
+
+# urls.py path points to the views.py about function
+def about(request):
+    '''
+    Function to handle the URL request for /hw (homepage).
+    Delegate rednering to the template hw/about.html
+    '''
+
+    # use this template to render (display) the response
+    template_name = 'hw/about.html'
+
+    # create a directory of context of context variables for the template:
+    context = {
+        "current_time": time.ctime(),
     }
 
     #delegate rendering work to the template

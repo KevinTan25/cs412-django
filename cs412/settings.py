@@ -121,6 +121,7 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
+# We put this in to be able to use css files
 import os # operating system library
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') # Where to put static files
 STATICFILES_DIRS = [
