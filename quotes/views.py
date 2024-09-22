@@ -50,3 +50,20 @@ def show_all(request):
 
     # delegate rendering work to the template
     return render(request, template_name, context)
+
+def about(request):
+    '''
+    Function to handle the URL request for /about.
+    Delegate rednering to the template quotes/about.html
+    '''
+
+    # use this template to render (display) the response
+    template_name = 'quotes/about.html'
+
+    # create a directory of context of context variables for the quote/home page:
+    context = {
+        "all_quotes": quotes,
+    }
+
+    # delegate rendering work to the template
+    return render(request, template_name, context)
