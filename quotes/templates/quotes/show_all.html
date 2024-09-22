@@ -1,0 +1,27 @@
+<!-- quotes/templates/quotes/show_all.html -->
+
+<!-- Extends the base -->
+{% extends 'base.html' %}
+
+<!-- Title -->
+{% block title %}All Quotes{% endblock %}
+
+<!-- Content -->
+{% block content %}
+    <h1>All Quotes</h1>
+    <ul>
+        <!-- For loops in Django: https://www.geeksforgeeks.org/for-loop-django-template-tags/ -->
+        {% for i in all_quotes %}
+            <li><p>{{i}}</p></li>
+        {% endfor %}
+    </ul>
+    <br>
+    <h1>
+        <ul>
+            <!-- For loops in Django: https://www.geeksforgeeks.org/for-loop-django-template-tags/ -->
+            {% for i in all_images %}
+                <li><img src="{{i}}" alt="Image"></li>
+            {% endfor %}
+        </ul>
+    </h1>
+{% endblock %}
