@@ -15,6 +15,8 @@ images = [
     "https://hips.hearstapps.com/hmg-prod/images/apple-ceo-steve-jobs-speaks-during-an-apple-special-event-news-photo-1683661736.jpg?crop=0.800xw:0.563xh;0.0657xw,0.0147xh&resize=1200:*",
 ] # List of images
 
+one_image = "https://i.insider.com/656e93d10ec98e92f74c0510?width=700"
+
 def quote(request):
     '''
     Function to handle the URL request for /quote (homepage).
@@ -63,6 +65,7 @@ def about(request):
     # create a directory of context of context variables for the quote/home page:
     context = {
         "all_quotes": quotes,
+        "image": one_image,
     }
 
     # delegate rendering work to the template
