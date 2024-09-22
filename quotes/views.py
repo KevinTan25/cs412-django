@@ -32,3 +32,21 @@ def quote(request):
 
     # delegate rendering work to the template
     return render(request, template_name, context)
+
+def show_all(request):
+    '''
+    Function to handle the URL request for /show_all.
+    Delegate rednering to the template quotes/show_all.html
+    '''
+
+    # use this template to render (display) the response
+    template_name = 'quotes/show_all.html'
+
+    # create a directory of context of context variables for the quote/home page:
+    context = {
+        "all_images": images,
+        "all_quotes": quotes,
+    }
+
+    # delegate rendering work to the template
+    return render(request, template_name, context)
