@@ -1,4 +1,19 @@
 body {
-    background-color: black;
+    background-color: green;
     color: white;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+img {
+    max-width: 50%;
+    height: auto;
+    margin: 1em 0;
+    border: 2px solid #2980b9;
+    border-radius: 10px;
+}
+
+h1, h4 {
+    color: #0b427a;
 }
