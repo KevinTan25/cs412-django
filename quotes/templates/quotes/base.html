@@ -1,0 +1,26 @@
+<!-- quotes/templates/quotes/basae.html
+    A template with common HTML code that will be re-used by
+    all of the other templates -->
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}Quote App{% endblock %}</title>
+        <link rel="stylesheet" href="/static/styles.css">
+    </head>
+    <body>
+        <nav>
+            <ul>
+                <li><a href="{% url 'quote' %}">Quote</a></li>
+                <li><a href="{% url 'show_all' %}">Show All</a></li>
+                <li><a href="{% url 'about' %}">About</a></li>
+            </ul>
+        </nav>
+        {% block content %}
+        <!-- fill in this section with specific page detail -->
+        {% endblock %}
+    </body>
+</html>
