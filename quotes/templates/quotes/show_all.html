@@ -12,7 +12,7 @@
     <ul>
         <!-- For loops in Django: https://www.geeksforgeeks.org/for-loop-django-template-tags/ -->
         {% for i in all_quotes %}
-            <li><p>{{i}}</p></li>
+            <p>{{i}}</p>
         {% endfor %}
     </ul>
     <br>
@@ -20,7 +20,7 @@
         <ul>
             <!-- For loops in Django: https://www.geeksforgeeks.org/for-loop-django-template-tags/ -->
             {% for i in all_images %}
-                <li><img src="{{i}}" alt="Image"></li>
+                <img src="{{i}}" alt="Image"><br>
             {% endfor %}
         </ul>
     </h1>
