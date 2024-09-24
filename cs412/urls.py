@@ -27,4 +27,5 @@ urlpatterns = [
                                      ## and associate it with URLs in another file
     path("quotes/", include("quotes.urls")), # create the URL quotes and assosiate it with
                                             # URLS in quotes/urls.py
+    path("formdata/", include("formdata.urls")) # Assosiate with formdata/urls.py
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
