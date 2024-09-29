@@ -1,0 +1,15 @@
+<!-- restaurant/templates/main.html 
+ Show a basic HTML webpage to the client -->
+
+{% extends 'restaurant/base.html' %}
+
+{% block content %}
+<div>
+    <h1>Restaurant</h1>
+    <h3>Welcome to Chipotle</h3>
+
+    <img src="{{image}}" alt="Chipotle">
+    <p>Location: 123 Random Street</p>
+    <p>Hours: 10am - 8pm</p>
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+<!-- restuarant/confirmation.html
+ Show a response to the form submission -->
+
+{% extends 'restaurant/base.html' %}
+
+{% block content %}
+
+<div>
+    <h1>Order Receipt Confirmation</h1>
+    <p>Thank you, {{ customer_name }}!</p>
+    <p>You will be contacted through {{customer_email}} and {{customer_phone}}.</p><br>
+
+    <p>Your Order will be ready at {{ready_time}}</p><br>
+    <p>Items Ordered</p><br>
+    <ul>
+        {% for i in ordered_items %}
+            <li>{{ i }}
+
+                <!-- Check if there are options for the item -->
+                <!-- <ul>
+                    {% for option in options %}
+                    <li>{{ option }}</li>
+                    {% endfor %}
+                </ul> -->
+
+            </li><br>
+        {% endfor %}
+    </ul><br>
+    <p>Extra Comments: <br>
+        {{comments}}
+    </p>
+    <p>Your total price is: ${{price}}</p>
+</div>
+
+
+{% endblock %}
