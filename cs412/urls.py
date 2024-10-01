@@ -30,4 +30,6 @@ urlpatterns = [
     path("formdata/", include("formdata.urls")), # Assosiate with formdata/urls.py
 
     path("restaurant/", include("restaurant.urls")), # Associate with restaurant/urls.py
+
+    path("blog/", include("blog.urls")), # Associate with blog/urls.py
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

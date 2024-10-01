@@ -27,3 +27,14 @@ To Run Heroku:
 2. heroku ps:scale web=1
 3. heroku open
 4. Stop the app at the end: heroku ps:scale web=0
+
+
+To build the database
+1. Change your models.py to include your database models
+2. python manage.py makemigrations 'name' (If we ever change the data attributes we have run this command. WILL BE ON QUIZ)
+3. python manage.py migrate
+4. (Need to create superuser if forgot password with python manage.py createsuperuser)
+5. python manage.py runserver and go to /admin/
+6. Modify 'name'/admin.py
+7. Press add on the website next to the name under your app and add your data (This data will be stored in db.sqlite)
+8. Write web app to display data
