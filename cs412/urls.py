@@ -32,4 +32,6 @@ urlpatterns = [
     path("restaurant/", include("restaurant.urls")), # Associate with restaurant/urls.py
 
     path("blog/", include("blog.urls")), # Associate with blog/urls.py
+
+    path("mini_fb/", include("mini_fb.urls")), # Associate with mini_fb/urls.py
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -6,6 +6,28 @@ body {
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+table {
+    border-collapse: collapse;
+    width: 50%;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+table td, table th {
+    padding: 50px;
+    border: 1px solid #ddd; 
+    text-align: left; 
+}
+
+table th {
+    background-color: #d1dedd;
+    font-weight: bold;
+}
+
+table td img {
+    width: 450px;
+    height: auto;
+}
+
 ul, li {
     padding: 0px;
     list-style-type: none;

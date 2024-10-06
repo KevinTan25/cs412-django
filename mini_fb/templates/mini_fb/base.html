@@ -1,0 +1,19 @@
+<!-- ## Create template: -->
+<!-- templates/base.html -->
+<!-- mini_fb/templates/mini_fb/base.html -->
+{% load static %}
+<html>
+    <head>
+        <title>Mini_FB</title>
+        <link rel="stylesheet" href="{% static 'styles-blog.css' %}">
+    </head>
+    <body>
+        <header>
+            <h1>Mini FaceBook</h1>
+        </header>
+        <a href="https://google.com/">Stand in link</a>
+        {% block content %}
+        {% endblock %}    
+  
+    </body>
+</html>
