@@ -11,10 +11,13 @@
     <!-- loop to display each Article -->
     {% for a in articles %}
         <article>
-            <img src="{{a.image_url}}" alt="{{a.image_url}}">
+            <a href="{% url 'article' a.pk %}">
+                <img src="{{a.image_url}}" alt="{{a.image_url}}"> <!-- Will make picture a link -->
+            </a>
 
             <div>
-                <h2>{{a.title}}</h2>
+                <!-- a.pk is the primary key (number) on the Article indentified by a -->
+                <h2><a href="{% url 'article' a.pk %}">{{a.title}}</a></h2>
                 <h3>by {{a.author}} at {{a.published}}</h3>
                 
                 <p>

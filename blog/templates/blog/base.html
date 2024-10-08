@@ -12,6 +12,13 @@
             <h1>Blog</h1>
         </header>
     
+        <nav>
+            <li>
+                <ul><a href="{% url 'show_all' %}">Show All</a></ul>
+                <ul><a href="{% url 'random' %}">Random</a></ul>
+            </li>
+        </nav>
+
     {% block content %}
     {% endblock %}    
   

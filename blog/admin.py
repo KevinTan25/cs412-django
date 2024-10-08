@@ -7,3 +7,4 @@ from .models import *
 
 # tells the admin to work with Article
 admin.site.register(Article)
+admin.site.register(Comment)
