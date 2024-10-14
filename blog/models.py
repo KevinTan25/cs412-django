@@ -23,6 +23,7 @@ class Article(models.Model):
 
         # use the ORM to retreme Comments for which the FK is this article
         comments = Comment.objects.filter(article=self)
+        return comments
     
 
 class Comment(models.Model):

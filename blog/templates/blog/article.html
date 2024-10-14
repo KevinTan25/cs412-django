@@ -24,15 +24,18 @@
         <div>
         {% if article.get_comments %}
             <h2>Comments:</h2>
+            <h3><a href="{% url 'create_comment' article.pk %}">Create a comment</a></h3>
             <!-- call the get_comments method on the article object -->
             <!-- {{article.get_comments}} -->
             {% for c in article.get_comments %}
-            <div>
-                <strong>by {{c.author}} at {{c.published}}</strong>
-                <p>
-                    {{c.text}}
-                </p>
-            </div>
+            <article>
+                <div>
+                    <strong>by {{c.author}} at {{c.published}}</strong>
+                    <p>
+                        {{c.text}}
+                    </p>
+                </div>
+            </article>
             {% endfor %}
         {% else%}
             <h2>No Comments</h2>

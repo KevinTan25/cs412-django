@@ -42,3 +42,54 @@ class ArticleView(DetailView):
     model = Article # The model to display
     template_name = 'blog/article.html'
     context_object_name = 'article' # this is the context variable to use in the html
+
+from django.views.generic.edit import CreateView
+from .forms import CreateCommentForm
+from django.urls import reverse
+from typing import Any
+
+class CreateCommentView(CreateView):
+    # '''A view to create a new comment and save it to the database.'''
+    # form_class = CreateCommentForm
+    # template_name = "blog/create_comment_form.html"
+    # ## show how the reverse function uses the urls.py to find the URL pattern
+    # def get_success_url(self) -> str:
+    #     '''Return the URL to redirect to after successfully submitting form.'''
+    #     return reverse('show_all')
+    #     ## note: this is not ideal, because we are redirected to the main page.
+    
+    '''A view to create a new comment and save it to the database.'''
+    form_class = CreateCommentForm
+    template_name = "blog/create_comment_form.html"
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        '''
+        Build the dict of context data for this view.
+        '''
+        # superclass context data
+        context = super().get_context_data(**kwargs)
+        # find the pk from the URL
+        pk = self.kwargs['pk']
+        # find the corresponding article
+        article = Article.objects.get(pk=pk)
+        # add article to context data
+        context['article'] = article
+        return context
+
+    def form_valid(self, form):
+        '''
+        Handle the form submission. We need to set the foreign key by 
+        attaching the Article to the Comment object.
+        We can find the article PK in the URL (self.kwargs).
+        '''
+        print(form.cleaned_data)
+        article = Article.objects.get(pk=self.kwargs['pk'])
+        # print(article)
+        form.instance.article = article
+        return super().form_valid(form)
+        
+    ## also:  revise the get_success_url
+    def get_success_url(self) -> str:
+        '''Return the URL to redirect to after successfully submitting form.'''
+        #return reverse('show_all')
+        return reverse('article', kwargs={'pk': self.kwargs['pk']})
