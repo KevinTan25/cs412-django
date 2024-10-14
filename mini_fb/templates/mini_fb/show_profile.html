@@ -1,0 +1,26 @@
+<!-- mini_fb/templates/mini_fb/show_profile.html -->
+{% extends 'mini_fb/base.html' %}
+
+{% block content %}
+  <div class="profile-container">
+    <h1>{{ profile.first_name }} {{ profile.last_name }}</h1>
+    <img src="{{ profile.image_url }}" alt="{{ profile.first_name }}'s profile picture">
+    <p><strong>City:</strong> {{ profile.city }}</p>
+    <p><strong>Email:</strong> <a href="mailto:{{ profile.email }}">{{ profile.email }}</a></p>
+  </div>
+
+  <div class="status-container">
+    <h2>{{ profile.first_name }}'s Status Messages</h2>
+    <ul>
+        {% for status in profile.get_status_messages %}
+        <li>
+            <p><strong>{{ status.message }}</strong></p>
+            <p><strong>{{ status.timestamp }}</strong></p>
+        </li>
+        {% empty %}
+        <p>This user has no status messages.</p>
+        {% endfor %}
+    </ul>
+  </div>
+  <a href="{% url 'show_all_profiles' %}">Back to All Profiles</a>
+{% endblock %}
