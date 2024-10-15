@@ -12,6 +12,7 @@
   <div class="status-container">
     <h2>{{ profile.first_name }}'s Status Messages</h2>
     <ul>
+        <a href="{% url 'create_status' profile.pk %}">Create Status</a>
         {% for status in profile.get_status_messages %}
         <li>
             <p><strong>{{ status.message }}</strong></p>

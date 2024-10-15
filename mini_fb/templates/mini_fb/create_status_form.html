@@ -1,0 +1,29 @@
+<!-- mini_fb/templates/mini_fb/create_status_form.html -->
+
+{% extends 'mini_fb/base.html' %}
+
+{% block content %}
+    <div class="form-container">
+        <h1>Create a Status Message</h1>
+        <form method='POST'>
+        {% csrf_token %}
+        
+        {% csrf_token %}
+        <table>
+            {% for field in form %}
+            <tr>
+                <th>{{field.name}}</th>
+                <td>{{field}}</td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td></td>
+                <td>
+                    <input type='submit' name = 'Add Status Message!' value= 'Add Status Message!'>
+                </td>
+            </tr>
+        </table>
+        <a href="{% url 'show_all_profiles' %}">Cancel</a>
+        </form>
+    </div>
+{% endblock %}
