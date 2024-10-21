@@ -13,6 +13,7 @@
     <h2>{{ profile.first_name }}'s Status Messages</h2>
     <ul>
         <a href="{% url 'create_status' profile.pk %}">Create Status</a>
+        <a href="{% url 'update_profile' profile.pk %}">Update Profile</a>
         {% for status in profile.get_status_messages %}
         <li>
             <p><strong>{{ status.message }}</strong></p>
