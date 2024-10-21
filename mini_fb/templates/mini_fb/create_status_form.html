@@ -5,7 +5,7 @@
 {% block content %}
     <div class="form-container">
         <h1>Create a Status Message</h1>
-        <form method='POST'>
+        <form method='POST' enctype="multipart/form-data">
         {% csrf_token %}
         
         {% csrf_token %}
@@ -16,6 +16,10 @@
                 <td>{{field}}</td>
             </tr>
             {% endfor %}
+            <tr>
+                <th>Upload Images</th>
+                <td><input type="file" name = "files" multiple></td>
+            </tr>
             <tr>
                 <td></td>
                 <td>
