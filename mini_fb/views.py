@@ -8,6 +8,7 @@ from .models import * # import the models (e.g., Profile)
 from django.views.generic import DetailView
 from django.views.generic import CreateView
 from django.views.generic import UpdateView
+from django.views.generic import DeleteView
 from .forms import *
 from django.urls import reverse
 
@@ -69,3 +70,27 @@ class UpdateProfileView(UpdateView):
     def get_success_url(self):
         '''Return the URL to redirect to after successfully submitting form.'''
         return reverse('show_profile', kwargs={'pk': self.object.pk})
+    
+
+class DeleteStatusMessageView(DeleteView):
+    '''Delete Status Message'''
+    model = StatusMessage
+    template_name = 'mini_fb/delete_status_form.html'
+    context_object_name = 'status_message'
+
+    def get_success_url(self):
+        '''Return the URL to redirect to after successfully submitting form.'''
+        profile_id = self.object.profile.pk
+        return reverse('show_profile', kwargs={'pk': profile_id})
+
+class UpdateStatusMessageView(UpdateView):
+    '''Update Status Message'''
+    model = StatusMessage
+    form_class = UpdateStatusMessageForm
+    template_name = 'mini_fb/update_status_form.html'
+    context_object_name = 'status_message'
+
+    def get_success_url(self):
+        '''Return the URL to redirect to after successfully submitting form.'''
+        profile_id = self.object.profile.pk
+        return reverse('show_profile', kwargs={'pk': profile_id})
