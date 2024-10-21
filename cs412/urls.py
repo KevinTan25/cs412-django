@@ -34,4 +34,6 @@ urlpatterns = [
     path("blog/", include("blog.urls")), # Associate with blog/urls.py
 
     path("mini_fb/", include("mini_fb.urls")), # Associate with mini_fb/urls.py
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

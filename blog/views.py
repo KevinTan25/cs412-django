@@ -93,3 +93,17 @@ class CreateCommentView(CreateView):
         '''Return the URL to redirect to after successfully submitting form.'''
         #return reverse('show_all')
         return reverse('article', kwargs={'pk': self.kwargs['pk']})
+    
+from .forms import CreateArticleForm, CreateCommentForm ## new import
+class CreateArticleView(CreateView):
+    '''A view to create a new Article and save it to the database.'''
+    form_class = CreateArticleForm
+    template_name = "blog/create_article_form.html"
+
+    def form_valid(self, form):
+        '''
+        Handle the form submission to create a new Article object.
+        '''
+        print(f'CreateArticleView: form.cleaned_data={form.cleaned_data}')
+        # delegate work to the superclass version of this method
+        return super().form_valid(form)

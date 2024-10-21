@@ -12,7 +12,8 @@
     {% for a in articles %}
         <article>
             <a href="{% url 'article' a.pk %}">
-                <img src="{{a.image_url}}" alt="{{a.image_url}}"> <!-- Will make picture a link -->
+                <!-- <img src="{{a.image_url}}" alt="{{a.image_url}}">  # Will make picture a link -->
+                <img src="{{a.image_file.url}}" alt="{{a.image_file.url}}">
             </a>
 
             <div>

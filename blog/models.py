@@ -1,6 +1,7 @@
 # blog/models.py
 # Define the data objects for our application
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
 class Article(models.Model):
@@ -11,7 +12,8 @@ class Article(models.Model):
     author = models.TextField(blank=False)
     text = models.TextField(blank=False)
     published = models.DateTimeField(auto_now=True) # When we create an object set the time to now
-    image_url = models.URLField(blank=True) # URL that will refer to an image url (it will not upload an image)
+    # image_url = models.URLField(blank=True) # URL that will refer to an image url (it will not upload an image)
+    image_file = models.ImageField(blank=True) # an actual image
 
     def __str__(self):
         '''Return a string representation of this object'''
@@ -24,6 +26,10 @@ class Article(models.Model):
         # use the ORM to retreme Comments for which the FK is this article
         comments = Comment.objects.filter(article=self)
         return comments
+
+    def get_absolute_url(self):
+        '''Return the URL to display this Article.'''
+        return reverse('article', kwargs={'pk':self.pk})
     
 
 class Comment(models.Model):

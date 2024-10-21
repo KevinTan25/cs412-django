@@ -12,4 +12,5 @@ urlpatterns = [
     path(r'article/<int:pk>', views.ArticleView.as_view(), name="article"), ## <int:pk> will work with default get_object method
     # path('create_comment', views.CreateCommentView.as_view(), name='create_comment'), ### FIRST (WITHOUT PK)
     path(r'article/<int:pk>/create_comment', views.CreateCommentView.as_view(), name='create_comment'), ### NEW
+    path(r'create_article', views.CreateArticleView.as_view(), name='create_article'),  ### NEW
 ]
