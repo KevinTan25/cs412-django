@@ -6,6 +6,11 @@ body {
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+.status-message img {
+    width: 150px !important; /* Adjust the size as necessary */
+    height: auto; /* Keep the aspect ratio */
+}
+
 table {
     border-collapse: collapse;
     width: 70%;

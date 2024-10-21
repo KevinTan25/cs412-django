@@ -17,6 +17,11 @@
         <li>
             <p><strong>{{ status.message }}</strong></p>
             <p><strong>{{ status.timestamp }}</strong></p>
+            {% for img in status.get_images %}
+            <div class="status-message">
+              <img src='{{img.image_file.url}}' alt='{{img.image_file.url}}'>
+            </div>
+            {% endfor %}
         </li>
         {% empty %}
         <p>This user has no status messages.</p>
