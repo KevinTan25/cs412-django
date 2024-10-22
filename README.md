@@ -38,3 +38,27 @@ To build the database
 6. Modify 'name'/admin.py
 7. Press add on the website next to the name under your app and add your data (This data will be stored in db.sqlite)
 8. Write web app to display data
+
+
+python manage.py shell commands
+1. from mini_fb.models import *
+2. all_profiles = Profile.objects.all()
+    all_profiles[0] # indexing
+    all_profiles[2:4] # slicing
+    for p in all_profiles:
+...     print(p.first_name)
+
+3. Profile.objects.filter(first_name="Jong")
+4. Profile.objects.filter(last_name__contains='L') | Profile.objects.filter (first_name__contains='J')
+(Use filter when one or more records)
+    Profile.objects.filter(last_name__lte='M')
+    Profile.objects.filter(last_name__lte='M').order_by('first_name')
+
+5. Profile.objects.exclude(last_name__contains='L') & Profile.objects.exclude(first_name__contains='J')
+6. Profile.objects.get(first_name='Kevin')
+    Profile.objects.get(pk=5)
+
+7. StatusMessage.objects.all()
+8. profiles = Profile.objects.exclude(last_name__contains='L') & Profile.objects.exclude(first_name__contains='J')
+9. StatusMessage.objects.filter(profile__in=profiles)
+10. StatusMessage.objects.filter(profile__in=profiles).order_by('profile__last_name')
