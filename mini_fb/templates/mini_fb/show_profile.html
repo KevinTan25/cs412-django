@@ -4,7 +4,9 @@
 {% block content %}
   <div class="profile-container">
     <h1>{{ profile.first_name }} {{ profile.last_name }}</h1>
-    <img src="{{ profile.image_url }}" alt="{{ profile.first_name }}'s profile picture">
+    <div class="profile-image">
+      <img src="{{ profile.image_url }}" alt="{{ profile.first_name }}'s profile picture">
+    </div>
     <p><strong>City:</strong> {{ profile.city }}</p>
     <p><strong>Email:</strong> <a href="mailto:{{ profile.email }}">{{ profile.email }}</a></p>
   </div>
@@ -26,6 +28,7 @@
             <a href="{% url 'delete_status' status.pk %}">Delete</a>
             <a href="{% url 'update_status' status.pk %}">Update</a>
         </li>
+        <hr>
         {% empty %}
         <p>This user has no status messages.</p>
         {% endfor %}

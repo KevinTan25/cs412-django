@@ -3,7 +3,8 @@
 body {
     margin: 30px;
     background: #d1dedd;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
 }
 
 .button {
@@ -11,7 +12,7 @@ body {
     color: white;
     padding: 10px 20px;
     text-align: center;
-    text-decoration: none;
+    text-decoration: none !important;
     display: inline-block;
     border-radius: 8px;
     border: none;
@@ -24,8 +25,18 @@ body {
 }
 
 .status-message img {
-    width: 150px !important; /* Adjust the size as necessary */
-    height: auto; /* Keep the aspect ratio */
+    width: 150px !important;
+    height: auto;
+}
+
+.image-profile td {
+    width: 300px !important;
+    height: auto;
+}
+
+.profile-image img {
+    width: 500px !important;
+    height: auto;
 }
 
 table {
