@@ -7,6 +7,30 @@ body {
     text-align: center;
 }
 
+.friends-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.friend-card {
+    border: 2px solid #4CAF50;
+    border-radius: 8px;
+    width: 160px;
+    text-align: center;
+    padding: 10px;
+    background-color: #fff;
+}
+
+.friend-image img {
+    width: 150px !important;
+    height: 150px !important;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
 .button {
     background-color: #4CAF50;
     color: white;

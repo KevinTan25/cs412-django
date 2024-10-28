@@ -11,6 +11,23 @@
     <p><strong>Email:</strong> <a href="mailto:{{ profile.email }}">{{ profile.email }}</a></p>
   </div>
 
+  <h2>{{ profile.first_name }}'s friends</h2>
+  <div class="friends-container">
+    {% for friend in profile.get_friends %}
+    <div class="friend-card">
+        <a href="{% url 'show_profile' friend.pk %}">
+            <div class="friend-image">
+              <img src="{{ friend.image_url }}" alt="{{ friend.first_name }}">
+            </div>
+            <p>{{ friend.first_name }} {{ friend.last_name }}</p>
+        </a>
+    </div>
+    {% empty %}
+    <p>This user has no friends.</p>
+    {% endfor %}
+  </div>
+
+
   <div class="status-container">
     <h2>{{ profile.first_name }}'s Status Messages</h2>
     <ul>
