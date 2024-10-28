@@ -12,10 +12,10 @@
             <h1>Mini FaceBook</h1>
         </header>
         <div class="button">
-            <a href="{% url 'show_all_profiles' %}">Link to the mini facebook page</a><br>
+            <a href="{% url 'show_all_profiles' %}" class="button">Link to the mini facebook page</a><br>
         </div>
         <div class="button">
-            <a href="{% url 'create_profile' %}">Create New Profile</a>
+            <a href="{% url 'create_profile' %}" class="button">Create New Profile</a>
         </div>
         {% block content %}
         {% endblock %}    

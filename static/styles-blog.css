@@ -7,6 +7,21 @@ body {
     text-align: center;
 }
 
+.news-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.news-card {
+    border: 2px solid #4CAF50;
+    border-radius: 8px;
+    width: 160px;
+    text-align: center;
+    padding: 10px;
+    background-color: #fff;
+}
+
 .friends-container {
     display: flex;
     flex-wrap: wrap;

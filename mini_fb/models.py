@@ -12,6 +12,7 @@ class Profile(models.Model):
     city = models.TextField(blank=False)
     email = models.TextField(blank=False)
     image_url = models.URLField(blank=True)
+    timestamp = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         '''Return a string representation of this object'''
@@ -50,6 +51,17 @@ class Profile(models.Model):
         friends = self.get_friends()
         return Profile.objects.exclude(id__in=[self.id] + [friend.id for friend in friends])
     
+    def get_news_feed(self):
+        from django.db.models import Q
+        friends = self.get_friends()
+        
+        # Retrieve StatusMessages for the profile and their friends
+        news_feed = StatusMessage.objects.filter(
+            Q(profile=self) | Q(profile__in=friends)
+        ).order_by('-timestamp')
+        
+        return news_feed
+
 class StatusMessage(models.Model):
     timestamp = models.DateTimeField(auto_now=True)
     message = models.TextField()

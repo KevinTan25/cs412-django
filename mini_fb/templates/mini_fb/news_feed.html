@@ -1,0 +1,30 @@
+<!-- templates/mini_fb/news_feed.html -->
+
+{% extends 'mini_fb/base.html' %}
+
+{% block content %}
+<br></br>
+    <div class="button-group">
+        <a href="{% url 'show_all_profiles' %}" class="button">All Profiles</a>
+        <a href="{% url 'show_profile' profile.pk %}" class="button">Profile Page</a>
+    </div>
+    <h2>{{ profile.first_name }}'s News Feed</h2>
+    <hr>
+    {% for status in news_feed %}
+        <div class="news-item">
+            <div class="profile-info">
+                <div class="news-card">
+                    <div class="friend-image">
+                        <img src="{{ status.profile.image_url }}" alt="{{ status.profile.first_name }}" class="profile-pic">
+                    </div>
+                </div>
+                <div class="news-content">
+                    <strong>{{ status.profile.first_name }} {{ status.profile.last_name }}</strong>
+                    <span>{{ status.timestamp }}</span>
+                </div>
+            </div>
+            <p>{{ status.message }}</p>
+            <hr>
+        </div>
+    {% endfor %}
+{% endblock %}
