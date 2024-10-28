@@ -9,6 +9,7 @@ from django.views.generic import DetailView
 from django.views.generic import CreateView
 from django.views.generic import UpdateView
 from django.views.generic import DeleteView
+from django.views import View
 from .forms import *
 from django.urls import reverse
 
@@ -94,3 +95,25 @@ class UpdateStatusMessageView(UpdateView):
         '''Return the URL to redirect to after successfully submitting form.'''
         profile_id = self.object.profile.pk
         return reverse('show_profile', kwargs={'pk': profile_id})
+
+from django.shortcuts import get_object_or_404, redirect
+class CreateFriendView(View):
+    def dispatch(self, request, *args, **kwargs):
+        profile = get_object_or_404(Profile, pk=kwargs['pk'])
+        other_profile = get_object_or_404(Profile, pk=kwargs['other_pk'])
+
+        profile.add_friend(other_profile)
+
+        # Redirect back to the profile page
+        return redirect('show_profile', pk=profile.pk)
+    
+class ShowFriendSuggestionsView(DetailView):
+    model = Profile
+    template_name = 'mini_fb/friend_suggestions.html'
+    context_object_name = 'profile'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        profile = self.get_object()
+        context['friend_suggestions'] = profile.get_friend_suggestions()
+        return context

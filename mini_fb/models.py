@@ -32,6 +32,24 @@ class Profile(models.Model):
         friend_ids = list(friends_as_profile1) + list(friends_as_profile2)
         return Profile.objects.filter(id__in=friend_ids)
     
+    def add_friend(self, other):
+        from django.db.models import Q
+        if self == other:
+            return
+
+        # Check if the friendship already exists
+        existing_friendship = Friend.objects.filter(
+            (Q(profile1=self) & Q(profile2=other)) | (Q(profile1=other) & Q(profile2=self))
+        ).exists()
+
+        if not existing_friendship:
+            # Create a new Friend instance if it doesn't exist
+            Friend.objects.create(profile1=self, profile2=other)
+
+    def get_friend_suggestions(self):
+        friends = self.get_friends()
+        return Profile.objects.exclude(id__in=[self.id] + [friend.id for friend in friends])
+    
 class StatusMessage(models.Model):
     timestamp = models.DateTimeField(auto_now=True)
     message = models.TextField()
