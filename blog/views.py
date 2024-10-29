@@ -5,6 +5,7 @@ from django.shortcuts import render
 # Create your views here.
 from django.views.generic import ListView, DetailView
 from .models import * # import the models (e.g., Article)
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 import random
 
@@ -14,6 +15,13 @@ class ShowAllView(ListView):
     model = Article # The model to display
     template_name = 'blog/show_all.html'
     context_object_name = 'articles' # this is the context variable to use in the html
+
+    def dispatch(self, *args, **kwargs):
+        '''implement this method to add some debug tracing'''
+
+        print("ShowAllView.dispatch; self.request.user={self.request.user}")
+        # let the superclass version of this method do the work
+        return super().dispatch(*args, **kwargs)
 
 class RandomArticleView(DetailView):
     '''Display one Article selected at Random'''
@@ -95,15 +103,26 @@ class CreateCommentView(CreateView):
         return reverse('article', kwargs={'pk': self.kwargs['pk']})
     
 from .forms import CreateArticleForm, CreateCommentForm ## new import
-class CreateArticleView(CreateView):
+class CreateArticleView(LoginRequiredMixin, CreateView):
     '''A view to create a new Article and save it to the database.'''
     form_class = CreateArticleForm
     template_name = "blog/create_article_form.html"
+
+    def get_login_url(self) -> str:
+        '''return the URL of the login page'''
+        return reverse('login')
 
     def form_valid(self, form):
         '''
         Handle the form submission to create a new Article object.
         '''
         print(f'CreateArticleView: form.cleaned_data={form.cleaned_data}')
+
+        # find the user who is logged in
+        user = self.request.user
+
+        # attach that user as a FK to the new Article instance
+        form.instance.user = user
+
         # delegate work to the superclass version of this method
         return super().form_valid(form)

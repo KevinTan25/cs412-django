@@ -14,10 +14,35 @@
     
         <nav>
             <li>
+                <!-- these URLs do not depend on which user is logged in -->
                 <ul><a href="{% url 'show_all' %}">Show All</a></ul>
                 <ul><a href="{% url 'random' %}">Random</a></ul>
+
+                <!-- this URL requires a logged in user: -->
+                {% if request.user.is_authenticated %}
                 <ui><a href="{% url 'create_article' %}">Create Article </a></ui>
+                <ui>
+                <form action="{% url 'logout' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="submit" value="Logout">
+                </form>
+                </ui>
+                {% else %}
+
+                <!-- this URL should show when not logged in -->
+                <ui><a href="{% url 'login' %}">Login </a></ui>
+                {% endif %}
             </li>
+
+            <p>
+                <!-- Request is the HTTP request object
+                 request.user is the Django user associated with this request -->
+                {% if request.user.is_authenticated %}
+                {{request.user}} is logged in
+                {% else %}
+                Not Logged In
+                {% endif %}
+            </p>
         </nav>
 
     {% block content %}
