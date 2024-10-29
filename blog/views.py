@@ -125,4 +125,4 @@ class CreateArticleView(LoginRequiredMixin, CreateView):
         form.instance.user = user
 
         # delegate work to the superclass version of this method
-        return super().form_valid(form)
+        return super().form_valid(form) 
