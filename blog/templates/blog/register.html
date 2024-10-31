@@ -1,0 +1,17 @@
+<!-- blog/templates/blog/register.html -->
+
+{% extends 'blog/base.html' %}
+{% block content %}
+<h2>Register</h2>
+
+<form class="site-form" action="{% url 'register' %}" method="post">
+    <!-- talk about CSRF -->
+    {% csrf_token %}
+
+    <table>
+        {{form.as_table}}
+    </table>
+
+    <input type="submit" name="register" value="register">
+</form>
+{% endblock %}

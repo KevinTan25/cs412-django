@@ -1,11 +1,17 @@
 # blog/views.py
 # define the views for the blog app
+from django.http import HttpRequest
 from django.shortcuts import render
+from django.http.response import HttpResponse as HttpResponse
+from django.shortcuts import render, redirect
 
 # Create your views here.
 from django.views.generic import ListView, DetailView
 from .models import * # import the models (e.g., Article)
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from django.contrib.auth import login
 
 import random
 
@@ -126,3 +132,42 @@ class CreateArticleView(LoginRequiredMixin, CreateView):
 
         # delegate work to the superclass version of this method
         return super().form_valid(form) 
+
+class RegistrationView(CreateView):
+    '''Handle registration of new Users.'''
+
+    template_name = 'blog/register.html'
+    form_class = UserCreationForm
+
+    def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
+        '''Handle the User creation form submission'''
+
+        if self.request.POST:
+            print(f"ReigstrationView.dispatch: self.request.POST={self.request.POST}")
+
+            # reconstruct the UserCreateForm from the POST data
+            form = UserCreationForm(self.request.POST)
+            
+            # if the form isn't value e.c. passwords don't match
+            if not form.is_valid():
+                print(f"form.errors={form.errors}")
+                
+                # let CreateView.dispatch handle the problem
+                return super().dispatch(request, *args, **kwargs)
+
+            # save the form, which creates a new User
+            user = form.save() # this will commit the insert to the database
+            print(f"RegistrationView.dispatch: created user {user}")
+
+            # log the user in
+            login(self.request, user)
+            print(f"RegistrationView.dispatch: {user} is logged in")
+
+            # note for mini_fb: attach the FK user to the Profile form instance
+            
+
+            # return a response
+            return redirect(reverse('show_all'))
+
+        # let CreateView.dispatch handle the HTTP GET request
+        return super().dispatch(request, *args, **kwargs)
