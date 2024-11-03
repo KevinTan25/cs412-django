@@ -34,8 +34,10 @@
   <div class="status-container">
     <h2>{{ profile.first_name }}'s Status Messages</h2>
     <ul>
-        <a href="{% url 'create_status' profile.pk %}">Create Status</a>
-        <a href="{% url 'update_profile' profile.pk %}">Update Profile</a>
+        {% if user.is_authenticated and user == profile.user %}
+          <a href="{% url 'create_status' profile.pk %}">Create Status</a>
+          <a href="{% url 'update_profile' profile.pk %}">Update Profile</a>
+        {% endif %}
         {% for status in profile.get_status_messages %}
         <li>
             <p><strong>{{ status.message }}</strong></p>
@@ -45,8 +47,10 @@
               <img src='{{img.image_file.url}}' alt='{{img.image_file.url}}'>
             </div>
             {% endfor %}
-            <a href="{% url 'delete_status' status.pk %}">Delete</a>
-            <a href="{% url 'update_status' status.pk %}">Update</a>
+            {% if user.is_authenticated and user == profile.user %}
+              <a href="{% url 'delete_status' status.pk %}">Delete</a>
+              <a href="{% url 'update_status' status.pk %}">Update</a>
+            {% endif %}
         </li>
         <hr>
         {% empty %}

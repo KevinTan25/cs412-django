@@ -12,6 +12,7 @@ from django.views.generic import DeleteView
 from django.views import View
 from .forms import *
 from django.urls import reverse
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # class-based view
 class ShowAllProfilesView(ListView):
@@ -25,7 +26,7 @@ class ShowProfilePageView(DetailView):
     template_name = 'mini_fb/show_profile.html'  # The template that will render the profile
     context_object_name = 'profile' 
 
-class CreateProfileView(CreateView):
+class CreateProfileView(LoginRequiredMixin, CreateView):
     model = Profile
     form_class = CreateProfileForm
     template_name = 'mini_fb/create_profile_form.html'
@@ -34,7 +35,7 @@ class CreateProfileView(CreateView):
         '''Return the URL to redirect to after successfully submitting form.'''
         return reverse('show_profile', kwargs={'pk': self.object.pk})
     
-class CreateStatusMessageView(CreateView):
+class CreateStatusMessageView(LoginRequiredMixin, CreateView):
     model = StatusMessage
     form_class = CreateStatusMessageForm
     template_name = 'mini_fb/create_status_form.html'
@@ -63,7 +64,7 @@ class CreateStatusMessageView(CreateView):
     def get_success_url(self):
         return reverse('show_profile', kwargs={'pk': self.kwargs['pk']})
     
-class UpdateProfileView(UpdateView):
+class UpdateProfileView(LoginRequiredMixin, UpdateView):
     model = Profile
     form_class = UpdateProfileForm
     template_name = 'mini_fb/update_profile_form.html'
@@ -73,7 +74,7 @@ class UpdateProfileView(UpdateView):
         return reverse('show_profile', kwargs={'pk': self.object.pk})
     
 
-class DeleteStatusMessageView(DeleteView):
+class DeleteStatusMessageView(LoginRequiredMixin, DeleteView):
     '''Delete Status Message'''
     model = StatusMessage
     template_name = 'mini_fb/delete_status_form.html'
@@ -84,7 +85,7 @@ class DeleteStatusMessageView(DeleteView):
         profile_id = self.object.profile.pk
         return reverse('show_profile', kwargs={'pk': profile_id})
 
-class UpdateStatusMessageView(UpdateView):
+class UpdateStatusMessageView(LoginRequiredMixin, UpdateView):
     '''Update Status Message'''
     model = StatusMessage
     form_class = UpdateStatusMessageForm
@@ -97,7 +98,7 @@ class UpdateStatusMessageView(UpdateView):
         return reverse('show_profile', kwargs={'pk': profile_id})
 
 from django.shortcuts import get_object_or_404, redirect
-class CreateFriendView(View):
+class CreateFriendView(LoginRequiredMixin, View):
     def dispatch(self, request, *args, **kwargs):
         profile = get_object_or_404(Profile, pk=kwargs['pk'])
         other_profile = get_object_or_404(Profile, pk=kwargs['other_pk'])
