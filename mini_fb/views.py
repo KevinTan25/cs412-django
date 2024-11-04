@@ -14,6 +14,7 @@ from .forms import *
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
+from django.contrib.auth.forms import UserCreationForm
 
 
 # class-based view
@@ -50,6 +51,21 @@ class CreateProfileView(LoginRequiredMixin, CreateView):
     
     def get_object(self):
         return Profile.objects.get(user=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user_form'] = UserCreationForm()
+        return context
+    
+    def form_valid(self, form):
+        user_form = UserCreationForm(self.request.POST)
+
+        if user_form.is_valid():
+            user = user_form.save()
+            form.instance.user = user
+            return super().form_valid(form)
+        else:
+            return self.form_invalid(form)
     
 class CreateStatusMessageView(LoginRequiredMixin, CreateView):
     model = StatusMessage
@@ -165,7 +181,7 @@ class ShowFriendSuggestionsView(DetailView):
         context['friend_suggestions'] = profile.get_friend_suggestions()
         return context
     
-class ShowNewsFeedView(DetailView):
+class ShowNewsFeedView(LoginRequiredMixin, DetailView):
     model = Profile
     template_name = 'mini_fb/news_feed.html'
     context_object_name = 'profile'
@@ -178,3 +194,7 @@ class ShowNewsFeedView(DetailView):
         profile = self.get_object()
         context['news_feed'] = profile.get_news_feed()
         return context
+    
+    def get_login_url(self) -> str:
+        '''return the URL of the login page'''
+        return reverse('login')

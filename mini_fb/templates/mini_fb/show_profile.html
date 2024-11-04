@@ -28,7 +28,9 @@
     <p>This user has no friends.</p>
     {% endfor %}
   </div>
-  <a href="{% url 'friend_suggestions' %}">See Friend Suggestions</a>
+  {% if user.is_authenticated %}
+    <a href="{% url 'friend_suggestions' %}">See Friend Suggestions</a>
+  {% endif %}
 
 
   <div class="status-container">
