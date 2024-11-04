@@ -15,7 +15,7 @@ class Profile(models.Model):
     image_url = models.URLField(blank=True)
     timestamp = models.DateTimeField(auto_now=True)
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):
         '''Return a string representation of this object'''
