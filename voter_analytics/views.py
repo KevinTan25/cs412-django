@@ -102,7 +102,8 @@ class GraphsView(ListView):
         max_dob = self.request.GET.get('max_dob', None)
         voter_score = self.request.GET.get('voter_score', None)
         voted_elections = self.request.GET.getlist('voted_elections', None)
-
+        
+        # Same code as from the VoterListView
         if party:
             qs = qs.filter(party_affiliation=party)
         if min_dob:
@@ -134,6 +135,7 @@ class GraphsView(ListView):
 
         # Add voter score range for the score filter dropdown
         context['score_range'] = range(0, 6)
+
 
         # Graph 1: Histogram for voter distribution by year of birth
         birth_years = Voter.objects.values_list('date_of_birth__year', flat=True)
