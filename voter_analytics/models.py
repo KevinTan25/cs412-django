@@ -37,12 +37,20 @@ def load_data(filename):
     
     filename = '/Users/kevintan/Desktop/django/voter_analytics/newton_voters.csv'
     f = open(filename)
-    f.readline()
+    f.readline() # discard headers
+
+    # valid_parties = {'D', 'R', 'CC', 'L', 'T', 'O', 'G', 'J', 'Q', 'FF'}
 
     for line in f:
-        row = line.split(',')
+        row = line.split(',').strip() # create a list of fields separated by commas
         
         try:
+            # Ensure party affiliation is valid
+            # if row[9] not in valid_parties:
+            #     print(f"Skipping invalid party affiliation: {row[9]}")
+            #     continue
+
+            # create a new instance of Voter object with this record from CSV
             voter = Voter(
                 voterID=row[0],
                 last_name=row[1],
@@ -63,7 +71,7 @@ def load_data(filename):
                 voter_score=int(row[16]),
             )
             voter.save()  # Save this instance to the database
-            print(f'Created voter: {voter.first_name} {voter.last_name}')
+            # print(f'Created voter: {voter.first_name} {voter.last_name}')
     
         except Exception as e:
             print(f"Exception on {row}: {e}")
