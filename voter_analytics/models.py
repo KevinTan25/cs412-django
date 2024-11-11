@@ -39,16 +39,16 @@ def load_data(filename):
     f = open(filename)
     f.readline() # discard headers
 
-    # valid_parties = {'D', 'R', 'CC', 'L', 'T', 'O', 'G', 'J', 'Q', 'FF'}
+    valid_parties = {'D', 'R', 'CC', 'L', 'T', 'O', 'G', 'J', 'Q', 'FF'}
 
     for line in f:
-        row = line.split(',').strip() # create a list of fields separated by commas
+        row = line.strip().split(',') # create a list of fields separated by commas
         
         try:
             # Ensure party affiliation is valid
-            # if row[9] not in valid_parties:
-            #     print(f"Skipping invalid party affiliation: {row[9]}")
-            #     continue
+            if row[9] not in valid_parties:
+                print(f"Skipping invalid party affiliation: {row[9]}")
+                continue
 
             # create a new instance of Voter object with this record from CSV
             voter = Voter(
