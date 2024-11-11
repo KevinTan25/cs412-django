@@ -138,14 +138,14 @@ class GraphsView(ListView):
 
 
         # Graph 1: Histogram for voter distribution by year of birth
-        birth_years = Voter.objects.values_list('date_of_birth__year', flat=True)
+        birth_years = voters.values_list('date_of_birth__year', flat=True)  # Use filtered 'voters' queryset
         fig1 = go.Histogram(x=list(birth_years))  # Plotly histogram
         title_text = 'Voter Distribution by Year of Birth'
         hist_div = plotly.offline.plot(
-            {'data': [fig1], "layout_title_text": title_text,}, 
+            {'data': [fig1], "layout_title_text": title_text}, 
             auto_open=False, output_type='div'
         )
-        context['hist_div'] = hist_div  # Pass graph as HTML div
+        context['hist_div'] = hist_div
 
         # Graph 2: Pie chart for party affiliation distribution
         party_counts = voters.values('party_affiliation').annotate(count=Count('party_affiliation')).order_by('-count')

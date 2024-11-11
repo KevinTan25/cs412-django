@@ -46,8 +46,9 @@ def load_data(filename):
         
         try:
             # Ensure party affiliation is valid
-            if row[9] not in valid_parties:
-                print(f"Skipping invalid party affiliation: {row[9]}")
+            party = row[9].strip()
+            if party not in valid_parties:
+                # print(f"Skipping invalid party affiliation: {row[9]}")
                 continue
 
             # create a new instance of Voter object with this record from CSV
@@ -61,7 +62,7 @@ def load_data(filename):
                 zip_code=row[6],
                 date_of_birth=row[7],
                 date_of_registration=row[8],
-                party_affiliation=row[9],
+                party_affiliation=row[9].strip(),
                 precinct_number=row[10],
                 v20state=row[11] == 'TRUE',
                 v21town=row[12] == 'TRUE',
