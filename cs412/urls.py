@@ -36,6 +36,8 @@ urlpatterns = [
     path("mini_fb/", include("mini_fb.urls")), # Associate with mini_fb/urls.py
 
     path("marathon_analytics/", include("marathon_analytics.urls")), # Associate with marathon_analytics/urls.py
+
+    path("voter_analytics/", include("voter_analytics.urls")), #Associate with voter_analytics/urls.py
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

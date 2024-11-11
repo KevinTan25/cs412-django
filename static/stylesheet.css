@@ -5,6 +5,7 @@ body {
 h1, h2, h3, footer,header, p {
   font-family: verdana;
   color: rgb(40, 40, 138);
+  text-align: center;
 }
 
 /* table, td, th {
