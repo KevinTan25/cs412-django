@@ -1,0 +1,50 @@
+<!-- templates/flights/flight_detail -->
+{% extends 'flights/base.html' %}
+{% block title %}Flight {{ flight.flight_number }}{% endblock %}
+
+{% block content %}
+<h1>Flight Details</h1>
+<p><strong>Flight Number:</strong> {{ flight.flight_number }}</p>
+<p><strong>Departure Airport:</strong> {{ flight.departure_airport.name }} ({{ flight.departure_airport.code }})</p>
+<p><strong>Arrival Airport:</strong> {{ flight.arrival_airport.name }} ({{ flight.arrival_airport.code }})</p>
+<p><strong>Departure Time:</strong> {{ flight.departure_time }}</p>
+<p><strong>Arrival Time:</strong> {{ flight.arrival_time }}</p>
+<p><strong>Cost:</strong> ${{ flight.cost }}</p>
+<p><strong>Amenities:</strong> {{ flight.amenities }}</p>
+<p><strong>Seats Left:</strong> {{ flight.seats_left }}</p>
+
+<br>
+<div class="flight-images-container">
+    <a href="https://www.google.com/search?q={{ departure_airport.name }}" target="_blank">
+        <div class="airport-image-container">
+            <h3 class="image-title">Departure: {{ departure_airport.city }}</h3>
+            <img 
+                src="{{ departure_airport.image_url }}" 
+                alt="{{ departure_airport.city }}" 
+                class="airport-image"
+            >
+        </div>
+    </a>
+    <a href="https://www.google.com/search?q={{ arrival_airport.name }}" target="_blank">
+        <div class="airport-image-container">
+            <h3 class="image-title">Arrival: {{ arrival_airport.city }}</h3>
+            <img 
+                src="{{ arrival_airport.image_url }}" 
+                alt="{{ arrival_airport.city }}" 
+                class="airport-image"
+            >
+        </div>
+    </a>
+</div>
+<br>
+
+<a 
+    href="https://www.google.com/search?q=Book+{{ flight.flight_number }}+{{ flight.departure_time|date:'M j, Y' }}" 
+    class="button"
+    target="_blank">
+    Search on Google
+</a>
+
+
+<a href="{% url 'all_flights' %}" class="button">Back to All Flights</a>
+{% endblock %}

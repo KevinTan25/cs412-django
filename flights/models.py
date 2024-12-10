@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import timedelta
 
-# Create your models here.
 # Airport model
 class Airport(models.Model):
     name = models.CharField(max_length=100)  # Name of the airport
@@ -9,19 +9,19 @@ class Airport(models.Model):
     city = models.CharField(max_length=100)  # City where the airport is located
     country = models.CharField(max_length=100)  # Country where the airport is located
     amenities = models.TextField(blank=True, null=True)  # List of amenities available
-    avg_security_time = models.DurationField()  # Average security check time
+    avg_security_time = models.DurationField(default=timedelta(minutes=30))  # Default to 30 mins
+    image_url = models.URLField(blank=True)
 
     def __str__(self):
         return f"{self.name} ({self.code})"
 
 # Aircraft type model
 class AircraftType(models.Model):
-    manufacturer = models.CharField(max_length=50)  # E.g., Boeing, Airbus
     model = models.CharField(max_length=50)  # Specific model name
     seat_capacity = models.PositiveIntegerField()  # Total number of seats
 
     def __str__(self):
-        return f"{self.manufacturer} {self.model}"
+        return f"{self.model}"
 
 # Flights model
 class Flight(models.Model):
@@ -36,7 +36,11 @@ class Flight(models.Model):
     seats_left = models.PositiveIntegerField()  # Number of seats left to book
 
     def __str__(self):
-        return f"{self.flight_number} - {self.departure_airport} to {self.arrival_airport}"
+        return f"{self.flight_number}: {self.departure_airport.code} to {self.arrival_airport.code}"
+
+    @property
+    def flight_duration(self):
+        return self.arrival_time - self.departure_time
 
 # Airplane Rentals model
 class AirplaneRental(models.Model):
@@ -87,19 +91,10 @@ class ShoppingCartRental(models.Model):
     def __str__(self):
         return f"{self.cart.user.username}'s Cart - Rental {self.rental.aircraft}"
 
-# # Users model
-# class User(models.Model):
-#     first_name = models.CharField(max_length=50)
-#     last_name = models.CharField(max_length=50)
-#     email = models.EmailField(unique=True)
-#     preferences = models.TextField(blank=True, null=True)  # Preferences for filtering flights or rentals
-
-#     def __str__(self):
-#         return f"{self.first_name} {self.last_name}"
-
+# Profile model for additional user preferences
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="flights_profile")
-    preferences = models.TextField(blank=True, null=True)
+    preferences = models.TextField(blank=True, null=True)  # Preferences for filtering flights or rentals
 
     def __str__(self):
         return f"{self.user.username}'s Profile"

@@ -1,0 +1,41 @@
+<!-- templates/flights/base.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Flight App{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'flightStyles.css' %}">
+</head>
+<body>
+    <div class="background-image"><img
+        src = "https://c4.wallpaperflare.com/wallpaper/682/248/50/sky-airplane-airline-airbus-wallpaper-preview.jpg"
+        alt = "Background Image"
+        class = "background-image"></div>
+    <div class="content-container">
+        <header>
+            <nav>
+                <br>
+                <a href="{% url 'all_flights' %}" class="button">Home</a>
+            </nav>
+        </header>
+        {% if user.is_authenticated %}
+            <p>Welcome, {{ user.username }}!</p>
+            <form method="POST" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="button">Logout</button>
+            </form>
+        {% else %}
+            <a href="{% url 'login' %}" class="button">Login</a>
+        {% endif %}
+        <main>
+            {% block content %}
+            {% endblock %}
+        </main>
+    </div>
+    <footer>
+        <p>&copy; Kevin Tan Flight App</p>
+    </footer>
+</body>
+</html>

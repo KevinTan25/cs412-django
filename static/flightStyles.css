@@ -1,0 +1,249 @@
+/* flights/static/flights/styles.css */
+/* CSS for flights app */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    color: black;
+    text-align: center;
+}
+
+/* Title styling */
+h1 {
+    font-size: 48px; /* Make the title larger */
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.container {
+    max-width: 1500px;
+    margin: 10px auto;
+    padding: 20px;
+}
+
+.flight {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 15px;
+  padding: 20px;
+  margin: 20px 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.flight:last-child {
+    border-bottom: none;
+}
+
+.flight h3 {
+    margin: 5px 0;
+    color: #555;
+    line-height: 1.4;
+}
+
+.flight p {
+    margin: 5px 0;
+    color: #555;
+    line-height: 1.5;
+}
+
+.pagination {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.pagination a {
+    text-decoration: none;
+    padding: 5px 10px;
+    margin: 0 5px;
+    border: 1px solid #ddd;
+    color: #007bff;
+    border-radius: 3px;
+}
+
+.pagination a:hover {
+    background: #007bff;
+    color: #fff;
+}
+
+.pagination .current {
+    font-weight: bold;
+    color: black;
+    border-color: #007bff;
+}
+
+
+
+/* Default styles for all pages */
+body.default {
+    font-family: Arial, sans-serif;
+    background-color: #000000;
+    color: white;
+}
+
+/* Styles specific to the flight listing page */
+body.flight-list-page {
+    background-color: #000000;
+    color: white;
+}
+
+body.flight-list-page header {
+    background-color: #00796b;
+    color: #fff;
+}
+
+/* Styles specific to the flight detail page */
+body.flight-detail-page {
+    background-color: #ffecb3;
+    color: #444;
+}
+
+body.flight-detail-page h1 {
+    color: #fdfdfd;
+}
+
+body.flight-detail-page a {
+    color: #1e88e5;
+    text-decoration: none;
+}
+
+body.flight-detail-page a:hover {
+    text-decoration: underline;
+}
+
+
+.flight-images-container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin: 20px 0;
+    gap: 40px;
+}
+
+.airport-image-container {
+    text-align: center;
+}
+
+.image-title {
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.airport-image {
+    max-width: 500px; /* Limit the image width */
+    max-height: auto; /* Limit the image height */
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+}
+
+
+.flight-images-container a {
+    text-decoration: none; /* Remove underline from the link */
+}
+
+.flight-images-container a:hover .airport-image {
+    transform: scale(1.05); /* Enlarge image slightly on hover */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+.airport-image {
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+/* Set the background image */
+.background-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://c4.wallpaperflare.com/wallpaper/682/248/50/sky-airplane-airline-airbus-wallpaper-preview.jpg');
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+}
+
+/* Make the content container slightly transparent */
+.content-container {
+    background-color: rgba(255, 255, 255, 0.85); /* White with slight transparency */
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    max-width: 1200px;
+    margin: 20px auto; /* Center the box */
+}
+
+
+
+/* Filter form styling */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    justify-content: center;
+}
+
+form label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+form select,
+form input[type="text"],
+form button {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+form button {
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+
+.button {
+    display: inline-block;
+    padding: 5px 5px;
+    /* margin: 10px 5px; */
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+.button:active {
+    background-color: #003f7f;
+    transform: scale(0.95);
+}

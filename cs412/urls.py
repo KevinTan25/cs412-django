@@ -38,6 +38,8 @@ urlpatterns = [
     path("marathon_analytics/", include("marathon_analytics.urls")), # Associate with marathon_analytics/urls.py
 
     path("voter_analytics/", include("voter_analytics.urls")), #Associate with voter_analytics/urls.py
+
+    path("flights/", include("flights.urls"))
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

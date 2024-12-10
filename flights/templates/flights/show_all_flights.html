@@ -1,0 +1,77 @@
+{% extends "flights/base.html" %}
+{% load static %}
+
+{% block title %}
+    All Flights
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>All Flights</h1>
+
+    <form method="get" action="">
+        <label for="departure_airport">Departure Airport:</label>
+        <select name="departure_airport" id="departure_airport">
+            <option value="all" {% if selected_departure_airport == "all" %}selected{% endif %}>All Airports</option>
+            {% for airport in airports %}
+            <option value="{{ airport.id }}" {% if airport.id|stringformat:"s" == selected_departure_airport %}selected{% endif %}>
+                {{ airport.name }} ({{ airport.code }})
+            </option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="arrival_airport">Arrival Airport:</label>
+        <select name="arrival_airport" id="arrival_airport">
+            <option value="all" {% if selected_arrival_airport == "all" %}selected{% endif %}>All Airports</option>
+            {% for airport in airports %}
+            <option value="{{ airport.id }}" {% if airport.id|stringformat:"s" == selected_arrival_airport %}selected{% endif %}>
+                {{ airport.name }} ({{ airport.code }})
+            </option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="search">Search Flights:</label>
+        <input 
+            type="text" 
+            id="search" 
+            name="q" 
+            placeholder="Search by flight number" 
+            value="{{ search_query }}" 
+        />
+        <br>
+        <button type="submit">Filter</button>
+    </form>
+
+    {% for flight in flights %}
+    <div class="flight">
+        <h3>{{ flight.flight_number }}</h3>
+        <p><strong>From:</strong> {{ flight.departure_airport.name }} ({{ flight.departure_airport.code }})</p>
+        <p><strong>To:</strong> {{ flight.arrival_airport.name }} ({{ flight.arrival_airport.code }})</p>
+        <p><strong>Departure Time:</strong> {{ flight.departure_time }}</p>
+        <p><strong>Arrival Time:</strong> {{ flight.arrival_time }}</p>
+        <p><strong>Cost:</strong> ${{ flight.cost }}</p>
+        <p><a href="{% url 'flight_detail' flight.pk %}" class="button">View Details</a></p>
+    </div>
+    {% empty %}
+    <br>
+    <td colspan="5">No flights found matching your search criteria.</td>
+    {% endfor %}
+
+    <!-- Pagination -->
+    <div class="pagination">
+        {% if is_paginated %}
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; First</a>
+                <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+            {% endif %}
+
+            <span class="current">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">Next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

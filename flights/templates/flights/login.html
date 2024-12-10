@@ -1,0 +1,17 @@
+<!-- flights/templates/flights/login.html -->
+{% extends 'flights/base.html' %}
+{% block content %}
+<h2>Login</h2>
+<form method="POST">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit" class="button">Login</button>
+
+    {% if request.GET.next %}
+    <input type="hidden" name='next' value="{{request.GET.next}}">
+    {% else %}
+    <input type="hidden" name='next' value="{% url 'all_flights' %}">
+    {% endif %}
+</form>
+<p>Don't have an account? <a href="{% url 'register' %}" class="button">Register here</a></p>
+{% endblock %}
