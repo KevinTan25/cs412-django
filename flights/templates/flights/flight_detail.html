@@ -21,6 +21,8 @@
         </form>
     {% endif %}
 {% endif %}
+<a href="{% url 'flight-update' flight.pk %}" class="button">Update Flight</a>
+<a href="{% url 'flight-delete' flight.id %}" class="button">Delete Flight</a>
 
 <br>
 <div class="flight-images-container">

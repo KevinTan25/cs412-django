@@ -21,4 +21,7 @@ urlpatterns = [
     path(r'airports/', views.AirportListView.as_view(), name='airport_list'),  # URL for the list of airports
     path(r'airports/<int:pk>/', views.AirportDetailView.as_view(), name='airport_detail'),  # URL for airport details
     path(r'checkout/', views.CheckoutView.as_view(), name='checkout'),  # Checkout view
+    path(r'flights/import/', views.FlightCreateView.as_view(), name='import-flights'), # Create new flights
+    path(r'flights/<int:pk>/update/', views.FlightUpdateView.as_view(), name='flight-update'), # Update flights
+    path(r'flights/<int:pk>/delete/', views.FlightDeleteView.as_view(), name='flight-delete'), # Delete a flight
 ]

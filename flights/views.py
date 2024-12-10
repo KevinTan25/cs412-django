@@ -1,7 +1,7 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View
 from django.urls import reverse_lazy
 from django.shortcuts import render
-from .models import Flight, Airport, AirplaneRental, ShoppingCart, ShoppingCartFlight, ShoppingCartRental
+from .models import Flight, Airport, AirplaneRental, ShoppingCart, ShoppingCartFlight, ShoppingCartRental, AircraftType
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.contrib.auth.forms import UserCreationForm
@@ -13,7 +13,9 @@ from typing import Any
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 import requests
-
+from django.contrib import messages
+from datetime import timedelta
+import random
 
 
 
@@ -76,25 +78,152 @@ class FlightDetailView(DetailView):
 
 # Create view for adding a flight
 class FlightCreateView(LoginRequiredMixin, CreateView):
-    model = Flight
-    template_name = 'flights/flight_form.html'
-    fields = ['flight_number', 'departure_airport', 'arrival_airport', 'departure_time', 'arrival_time', 'cost', 'aircraft', 'amenities', 'seats_left']
-    success_url = reverse_lazy('flights:flight-list')
+    """
+    Allows authenticated users to fetch and import flights into the database using SerpAPI.
+    """
+
+    template_name = 'flights/import_flights.html'
+
+    def get(self, request, *args, **kwargs):
+        """
+        Render the flight import form with available airports.
+        """
+        airports = Airport.objects.all()
+        return render(request, self.template_name, {"airports": airports})
+
+    def post(self, request, *args, **kwargs):
+        """
+        Handle the flight import request triggered by the user.
+        """
+        departure_id = request.POST.get("departure_id")
+        arrival_id = request.POST.get("arrival_id")
+        outbound_date = request.POST.get("outbound_date")
+        departure_city = request.POST.get("departure_city")
+        departure_country = request.POST.get("departure_country")
+        arrival_city = request.POST.get("arrival_city")
+        arrival_country = request.POST.get("arrival_country")
+
+
+        # API setup
+        api_key = "d764904413d0f85fcb35954a94356a3cb2c27e21726f437941bcdbfdeb166d3d"
+        endpoint = "https://serpapi.com/search"
+        params = {
+            "engine": "google_flights",
+            "departure_id": departure_id,
+            "arrival_id": arrival_id,
+            "outbound_date": outbound_date,
+            "currency": "USD",
+            "hl": "en",
+            "type": 2,
+            "api_key": api_key,
+        }
+
+        try:
+            # Fetch data from API
+            response = requests.get(endpoint, params=params)
+            if response.status_code != 200:
+                raise Exception(f"API Error: {response.status_code}, {response.text}")
+
+            data = response.json()
+            self.import_flights(data, departure_city, departure_country, arrival_city, arrival_country)
+            messages.success(request, "Flights imported successfully!")
+            return redirect("all_flights")
+        except Exception as e:
+            messages.error(request, f"Error importing flights: {str(e)}")
+            return render(request, self.template_name, {"airports": Airport.objects.all()})
+
+    def import_flights(self, data, departure_city, departure_country, arrival_city, arrival_country):
+        """
+        Manually Parses and imports flight data into the database.
+        """
+        for flight_data in data.get("best_flights", []):
+            for leg in flight_data["flights"]:
+                # Handle departure airport
+                departure_airport, _ = Airport.objects.get_or_create(
+                    name=leg["departure_airport"]["name"],
+                    code=leg["departure_airport"]["id"],
+                    defaults={
+                        "city": departure_city,
+                        "country": departure_country,
+                        "amenities": "",
+                        "avg_security_time": timedelta(minutes=random.randint(5, 30)),
+                    },
+                )
+
+
+                # Handle arrival airport
+                arrival_airport, _ = Airport.objects.get_or_create(
+                    name=leg["arrival_airport"]["name"],
+                    code=leg["arrival_airport"]["id"],
+                    defaults={
+                        "city": arrival_city,
+                        "country": arrival_country,
+                        "amenities": "",
+                        "avg_security_time": timedelta(minutes=random.randint(5, 30)),
+                    },
+                )
+
+
+                # Handle aircraft type
+                aircraft, _ = AircraftType.objects.get_or_create(
+                    model=leg.get("airplane", "Unknown"),
+                    seat_capacity=200,
+                )
+
+                # Create or update the flight
+                Flight.objects.update_or_create(
+                    flight_number=leg["flight_number"],
+                    defaults={
+                        "departure_airport": departure_airport,
+                        "arrival_airport": arrival_airport,
+                        "departure_time": leg["departure_airport"]["time"],
+                        "arrival_time": leg["arrival_airport"]["time"],
+                        "cost": flight_data.get("price", 0.0),
+                        "aircraft": aircraft,
+                        "amenities": ", ".join(leg.get("extensions", [])),
+                        "seats_left": random.randint(50, 200),
+                    },
+                )
 
 
 # Update view for editing a flight
 class FlightUpdateView(LoginRequiredMixin, UpdateView):
+    """
+    View to update the details of an existing flight.
+    """
     model = Flight
-    template_name = 'flights/flight_form.html'
-    fields = ['flight_number', 'departure_airport', 'arrival_airport', 'departure_time', 'arrival_time', 'cost', 'aircraft', 'amenities', 'seats_left']
-    success_url = reverse_lazy('flights:flight-list')
+    template_name = 'flights/flight_update.html'  # New template
+    fields = [
+        'flight_number', 'departure_airport', 'arrival_airport', 
+        'departure_time', 'arrival_time', 'cost', 'aircraft', 
+        'amenities', 'seats_left'
+    ]
 
+    def get_context_data(self, **kwargs):
+        """
+        Add additional context to the template.
+        """
+        context = super().get_context_data(**kwargs)
+        context['airports'] = Airport.objects.all()
+        context['aircrafts'] = AircraftType.objects.all()
+        return context
+
+    def get_success_url(self):
+        """
+        Redirects to the detail page of the updated flight.
+        """
+        return reverse('flight_detail', kwargs={'pk': self.object.pk})
 
 # Delete view for removing a flight
 class FlightDeleteView(LoginRequiredMixin, DeleteView):
     model = Flight
     template_name = 'flights/flight_confirm_delete.html'
-    success_url = reverse_lazy('flights:flight-list')
+
+    def get_success_url(self):
+        """
+        Redirects to the detail page of the deletion of flight.
+        """
+        return reverse('all_flights')
 
 
 # List view for airports

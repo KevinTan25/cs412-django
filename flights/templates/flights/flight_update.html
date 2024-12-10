@@ -1,0 +1,13 @@
+<!-- flights/templates/flights/flight_update.html -->
+{% extends "flights/base.html" %}
+
+{% block content %}
+<h1>Update Flight</h1>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit" class="button">Update Flight</button>
+</form>
+<a href="{% url 'all_flights' %}" class="button">Cancel</a>
+{% endblock %}
