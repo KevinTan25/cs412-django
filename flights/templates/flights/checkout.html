@@ -1,0 +1,32 @@
+<!-- flights/templates/flights/checkout.html -->
+{% extends "flights/base.html" %}
+
+{% block content %}
+<h1>Checkout Flights</h1>
+
+{% for result in serpapi_results %}
+    {% if result.error %}
+        <p>Error fetching flight details: {{ result.error }}</p>
+    {% else %}
+        <div class="flight-result">
+            <h3>Best Flights To Your Checkout</h3>
+            {% for flight in result.best_flights %}
+                <p>
+                    Flight Number: {{ flight.flights.0.flight_number }}<br>
+                    Departure: {{ flight.flights.0.departure_airport.name }}<br>
+                    Arrival: {{ flight.last_arrival_airport }}<br>
+                    Duration: {{ flight.total_duration }} mins<br>
+                    Price: ${{ flight.price }}
+                </p>
+                <a href="{{ result.search_metadata.google_flights_url }}" class="button" target="_blank">
+                    Buy Flight
+                </a>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% empty %}
+    <p>Nothing in cart.</p>
+{% endfor %}
+
+<a href="{% url 'shopping_cart' %}" class="button">Back to Cart</a>
+{% endblock %}

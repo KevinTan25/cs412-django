@@ -13,6 +13,15 @@
 <p><strong>Amenities:</strong> {{ flight.amenities }}</p>
 <p><strong>Seats Left:</strong> {{ flight.seats_left }}</p>
 
+{% if user.is_authenticated %}
+    {% if has_cart %}
+        <form method="post" action="{% url 'add_to_cart' flight.pk %}">
+            {% csrf_token %}
+            <button type="submit">Add to Cart</button>
+        </form>
+    {% endif %}
+{% endif %}
+
 <br>
 <div class="flight-images-container">
     <a href="https://www.google.com/search?q={{ departure_airport.name }}" target="_blank">

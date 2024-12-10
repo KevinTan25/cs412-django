@@ -1,0 +1,18 @@
+<!-- flights/templates/flights/airport_list.html -->
+{% extends "flights/base.html" %}
+
+{% block content %}
+<div class="airport-list-container">
+    <h1 class="airport-list-title">Airports</h1>
+    <ul class="airport-list">
+        {% for airport in airports %}
+        <li class="airport-item">
+            <a href="{% url 'airport_detail' airport.pk %}" class="airport-link">
+                {{ airport.name }} ({{ airport.code }})
+            </a>
+            - <span class="airport-location">{{ airport.city }}, {{ airport.country }}</span>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

@@ -13,29 +13,41 @@
         src = "https://c4.wallpaperflare.com/wallpaper/682/248/50/sky-airplane-airline-airbus-wallpaper-preview.jpg"
         alt = "Background Image"
         class = "background-image"></div>
+        <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-left">
+            <a href="{% url 'all_flights' %}" class="nav-link">Home</a>
+        </div>
+        <div class="navbar-center">
+            {% if user.is_authenticated %}
+                <span class="nav-text">Welcome, {{ user.username }}!</span>
+            {% endif %}
+        </div>
+        <div class="navbar-right">
+            {% if user.is_authenticated %}
+                <div class="nav-links">
+                    <a href="{% url 'airport_list' %}" class="nav-link">View All Airports</a>
+                    <a href="#" class="nav-link" onclick="document.getElementById('logout-form').submit();">Logout</a>
+                    <form id="logout-form" method="POST" action="{% url 'logout' %}" style="display: none;">
+                        {% csrf_token %}
+                    </form>
+                </div>
+            {% else %}
+            <a href="{% url 'login' %}" class="nav-link">Login</a>
+            {% endif %}
+        </div>
+    </nav>
     <div class="content-container">
-        <header>
-            <nav>
-                <br>
-                <a href="{% url 'all_flights' %}" class="button">Home</a>
-            </nav>
-        </header>
-        {% if user.is_authenticated %}
-            <p>Welcome, {{ user.username }}!</p>
-            <form method="POST" action="{% url 'logout' %}">
-                {% csrf_token %}
-                <button type="submit" class="button">Logout</button>
-            </form>
-        {% else %}
-            <a href="{% url 'login' %}" class="button">Login</a>
-        {% endif %}
         <main>
             {% block content %}
             {% endblock %}
         </main>
     </div>
     <footer>
-        <p>&copy; Kevin Tan Flight App</p>
+        <div class="navbar-end">
+            <p>&copy; Kevin Tan Flight App</p>
+        </div>
     </footer>
 </body>
 </html>
+

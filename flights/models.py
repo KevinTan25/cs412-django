@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models import Sum
 from datetime import timedelta
 
 # Airport model
@@ -65,13 +66,11 @@ class ShoppingCart(models.Model):
 
     @property
     def total_price(self):
-        flights_total = sum(
-            flight.flight.cost * flight.quantity for flight in self.cart_flights.all()
-        )
-        rentals_total = sum(
-            rental.rental.rental_cost * rental.rental_days for rental in self.cart_rentals.all()
-        )
-        return flights_total + rentals_total
+        flights_total = self.cart_flights.filter(cart=self).aggregate(total=Sum('flight__cost'))['total'] or 0
+        # rentals_total = sum(
+        #     rental.rental.rental_cost * rental.rental_days for rental in self.cart_rentals.all()
+        # )
+        return flights_total
 
 # Relationship between ShoppingCart and Flight
 class ShoppingCartFlight(models.Model):

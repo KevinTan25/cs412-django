@@ -1,0 +1,13 @@
+<!-- flights/templates/flights/create_cart.html -->
+{% extends 'flights/base.html' %}
+
+{% block content %}
+<div class="create-cart-container">
+    <h2>Create Shopping Cart</h2>
+    <p>You don't have a shopping cart yet. Click below to create one!</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="button">Create Cart</button>
+    </form>
+</div>
+{% endblock %}

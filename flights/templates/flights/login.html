@@ -5,6 +5,7 @@
 <form method="POST">
     {% csrf_token %}
     {{ form }}
+    <br>
     <button type="submit" class="button">Login</button>
 
     {% if request.GET.next %}

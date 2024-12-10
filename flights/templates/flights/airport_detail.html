@@ -1,0 +1,47 @@
+<!-- flights/templates/flights/airport_detail.html -->
+{% extends "flights/base.html" %}
+
+{% block content %}
+<!-- <div class="airport-detail-container"> -->
+    <h1 class="airport-detail-title">{{ airport.name }} ({{ airport.code }})</h1>
+    <div class="airport-detail-image">
+        {% if airport.image_url %}
+        <img src="{{ airport.image_url }}" alt="{{ airport.name }}" />
+        {% else %}
+        <p>No image available for this airport.</p>
+        {% endif %}
+    </div>
+    <p class="airport-detail-location"><strong>City:</strong> {{ airport.city }}</p>
+    <p class="airport-detail-country"><strong>Country:</strong> {{ airport.country }}</p>
+    <p class="airport-detail-amenities"><strong>Amenities:</strong> {{ airport.amenities|default:"N/A" }}</p>
+    <p class="airport-detail-security"><strong>Average Security Time:</strong> {{ airport.avg_security_time }}</p>
+
+    <h2 class="departing-flights-title">Departing Flights</h2>
+    {% for flight in departing_flights %}
+    <div class="departingArrive-flight-item">
+        <a href="{% url 'flight_detail' flight.pk %}" class="flight-link">
+            {{ flight.flight_number }}: {{ flight.departure_airport.name }} to {{ flight.arrival_airport.name }}
+        </a>
+        - Departure: {{ flight.departure_time|date:"F j, Y, g:i a" }}
+    </div>
+    {% empty %}
+    <div class="departingArrive-flight-item">
+    <p class="no-flights-message">No departing flights available.</p></div>
+    {% endfor %}
+
+    <h2 class="departing-flights-title">Arriving Flights</h2>
+    {% for flight in arriving_fligths %}
+    <div class="departingArrive-flight-item">
+        <a href="{% url 'flight_detail' flight.pk %}" class="flight-link">
+            {{ flight.flight_number }}: {{ flight.departure_airport.name }} to {{ flight.arrival_airport.name }}
+        </a>
+        - Arriving: {{ flight.arrival_time|date:"F j, Y, g:i a" }}
+    </div>
+    {% empty %}
+    <div class="departingArrive-flight-item">
+    <p class="no-flights-message">No arriving flights available.</p></div>
+    {% endfor %}
+
+<!-- </div> -->
+{% endblock %}
+

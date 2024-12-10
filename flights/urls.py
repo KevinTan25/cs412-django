@@ -14,4 +14,11 @@ urlpatterns = [
     path(r'login/', auth_views.LoginView.as_view(template_name='flights/login.html'), name='login'), # Login feature
     path(r'logout/', auth_views.LogoutView.as_view(next_page='all_flights'), name='logout'), # Logout feature
     path(r'register/', views.RegistrationView.as_view(), name='register'), # Register
+    path(r'cart/', views.ShoppingCartView.as_view(), name='shopping_cart'), # Shopping Cart view
+    path(r'cart/create/', views.ShoppingCartCreateView.as_view(), name='create_cart'), # Create Shopping Cart
+    path(r'cart/add/<int:pk>/', views.AddFlightToCartView.as_view(), name='add_to_cart'), # Add things to Shopping Cart
+    path(r'cart/delete/', views.DeleteShoppingCartView.as_view(), name='delete_cart'), # Delete Shopping Cart
+    path(r'airports/', views.AirportListView.as_view(), name='airport_list'),  # URL for the list of airports
+    path(r'airports/<int:pk>/', views.AirportDetailView.as_view(), name='airport_detail'),  # URL for airport details
+    path(r'checkout/', views.CheckoutView.as_view(), name='checkout'),  # Checkout view
 ]

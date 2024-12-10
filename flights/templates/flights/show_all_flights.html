@@ -8,6 +8,15 @@
 {% block content %}
 <div class="container">
     <h1>All Flights</h1>
+    {% if user.is_authenticated %}
+        {% if has_cart %}
+            <a href="{% url 'shopping_cart' %}" class="button">View Shopping Cart</a>
+            <br>
+        {% else %}
+            <a href="{% url 'create_cart' %}" class="button">Create Shopping Cart</a>
+            <br>
+        {% endif %}
+    {% endif %}
 
     <form method="get" action="">
         <label for="departure_airport">Departure Airport:</label>
