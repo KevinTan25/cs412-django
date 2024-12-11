@@ -1,5 +1,6 @@
 /* flights/static/flights/styles.css */
-/* CSS for flights app */
+/* Author: Kevin Tan (ktan03@bu.edu) */
+/* Description: CSS for flights app */
 
 body {
     font-family: Arial, sans-serif;
@@ -23,6 +24,7 @@ h1 {
     padding: 20px;
 }
 
+/* Flight styling */
 .flight {
   display: flex;
   justify-content: space-between;
@@ -52,6 +54,7 @@ h1 {
     line-height: 1.5;
 }
 
+/* Pagination */
 .pagination {
     margin-top: 20px;
     text-align: center;
@@ -76,7 +79,6 @@ h1 {
     color: black;
     border-color: #007bff;
 }
-
 
 
 /* Default styles for all pages */
@@ -117,6 +119,7 @@ body.flight-detail-page a:hover {
 }
 
 
+/* Flight images styles */
 .flight-images-container {
     display: flex;
     justify-content: space-evenly;
@@ -222,6 +225,7 @@ form button:hover {
 }
 
 
+/* Button styling */
 .button {
     display: inline-block;
     padding: 5px 5px;
