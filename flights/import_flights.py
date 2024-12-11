@@ -1,10 +1,15 @@
+# File: import_flights.py
+# Author: Kevin Tan (ktan03@bu.edu)
+# Description: Temporary code to import data for the flight app 
+# This code is put into FlightCreateView in views
+
 import requests
 from datetime import timedelta
 from flights.models import Airport, AircraftType, Flight
 
 # Example: Fetch data from an external API
 def fetch_flight_data():
-    api_key = "d764904413d0f85fcb35954a94356a3cb2c27e21726f437941bcdbfdeb166d3d"  # API Key
+    api_key = "d764904413d0f85fcb35954a94356a3cb2c27e21726f437941bcdbfdeb166d3d"  # API
     endpoint = "https://serpapi.com/search"
     params = {
         "engine": "google_flights",

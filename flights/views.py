@@ -1,3 +1,7 @@
+# File: views.py
+# Author: Kevin Tan (ktan03@bu.edu)
+# Description: Views for the flight app 
+
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View
 from django.urls import reverse_lazy
 from django.shortcuts import render
@@ -21,13 +25,25 @@ import random
 
 # List view for flights
 class FlightListView(ListView):
-    '''View all the flights'''
+    """
+    Displays a paginated list of all flights.
+
+    This view is responsible for showing the available flights in the system.
+    It supports searching by flight number and filtering based on departure 
+    and arrival airports. The results are paginated for better user experience.
+    """
     model = Flight
     template_name = 'flights/show_all_flights.html'
     context_object_name = 'flights'
     paginate_by = 10
 
     def get_queryset(self):
+        """
+        Retrieves the queryset of flights to display based on search filters.
+
+        If a search query is provided (flight number, departure airport, or arrival airport),
+        it filters the flights accordingly.
+        """
         queryset = super().get_queryset()
         query = self.request.GET.get('q')  # Text search
         departure_airport = self.request.GET.get('departure_airport')  # Selected departure airport
@@ -45,12 +61,19 @@ class FlightListView(ListView):
         return queryset
 
     def get_context_data(self, **kwargs):
+        """
+        Adds additional context data for the template.
+
+        Includes search filters, available airports, and whether the user has an active shopping cart.
+        """
+
         context = super().get_context_data(**kwargs)
         context['search_query'] = self.request.GET.get('q', '')  # Pass search term to template
         context['selected_departure_airport'] = self.request.GET.get('departure_airport', 'all')  # Selected departure airport
         context['selected_arrival_airport'] = self.request.GET.get('arrival_airport', 'all')  # Selected arrival airport
         context['airports'] = Airport.objects.all()  # Pass all airports to template
         context['user'] = self.request.user # Return a user
+
         if self.request.user.is_authenticated: # Checking if user is authenticated to create carts
             context['has_cart'] = ShoppingCart.objects.filter(user=self.request.user).exists()
         else:
@@ -59,16 +82,30 @@ class FlightListView(ListView):
 
 # Detail view for a specific flight
 class FlightDetailView(DetailView):
-    '''Handle the specific flight views'''
+    """
+    Displays detailed information about a specific flight.
+
+    This view provides additional information about a flight, such as
+    its departure and arrival airports, associated aircraft, and amenities.
+    """
+
     model = Flight
     template_name = 'flights/flight_detail.html'
     context_object_name = 'flight'
 
     def get_context_data(self, **kwargs):
+        """
+        Adds additional context data for the flight.
+
+        Includes the related departure and arrival airports, and whether
+        the user has an active shopping cart.
+        """
+
         context = super().get_context_data(**kwargs)
         # Add the related Airport objects to the context
         context['departure_airport'] = self.object.departure_airport
         context['arrival_airport'] = self.object.arrival_airport
+
         if self.request.user.is_authenticated: # Checking if user is authenticated to create carts
             context['has_cart'] = ShoppingCart.objects.filter(user=self.request.user).exists()
         else:
@@ -79,7 +116,10 @@ class FlightDetailView(DetailView):
 # Create view for adding a flight
 class FlightCreateView(LoginRequiredMixin, CreateView):
     """
-    Allows authenticated users to fetch and import flights into the database using SerpAPI.
+    Allows authenticated users to add flights by fetching data from an external API.
+
+    Users can specify departure and arrival airports and dates, and the system
+    fetches relevant flight data from an external service and saves it to the database.
     """
 
     template_name = 'flights/import_flights.html'
@@ -216,6 +256,9 @@ class FlightUpdateView(LoginRequiredMixin, UpdateView):
 
 # Delete view for removing a flight
 class FlightDeleteView(LoginRequiredMixin, DeleteView):
+    """
+    View to delete an existing flight.
+    """
     model = Flight
     template_name = 'flights/flight_confirm_delete.html'
 
@@ -392,7 +435,7 @@ class DeleteShoppingCartView(LoginRequiredMixin, DeleteView):
         return ShoppingCart.objects.get(user=self.request.user)
     
     def get_success_url(self):
-        '''Return the URL to redirect to after successfully deleting the cart.'''
+        """Return the URL to redirect to after successfully deleting the cart."""
         return reverse('all_flights')
 
 class RegistrationView(CreateView):

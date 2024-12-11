@@ -1,3 +1,7 @@
+# File: models.py
+# Author: Kevin Tan (ktan03@bu.edu)
+# Description: Models for the flight app 
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Sum
